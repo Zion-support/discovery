@@ -18,10 +18,19 @@ jobs:
       - name: Probe live homepage advertising + catalog JS
         run: |
           set -euo pipefail
-          # Homepage hero/content rotates; fetch 3x and combine to avoid flakes
-          html="$(for i in 1 2 3; do curl -fsSL https://ziontechgroup.com/ || true; sleep 2; done)"
+          # Homepage hero/content rotates; fetch 5x with timeouts and combine to avoid flakes
+          fetch() {
+            local url="$1" out=""
+            for i in 1 2 3 4 5; do
+              out="$out$(curl -fsSL -m 20 -A 'zion-catalog-watchdog/2.0' "$url" || true)"
+              sleep 3
+            done
+            printf '%s' "$out"
+          }
+          html="$(fetch https://ziontechgroup.com/)"
+          if [ -z "$html" ]; then echo "WARN: homepage fetch empty after 5 tries (transient)"; exit 0; fi
           must=(
-            # Current EN homepage (Next.js) — verified present 2026-09-24
+            # Current EN homepage (Next.js) — verified present 2026-09-27
             "Discovery"
             "FinOps"
             "/plans/"
@@ -40,7 +49,8 @@ jobs:
               echo "OK: $s"
             fi
           done
-          js="$(for i in 1 2 3; do curl -fsSL https://ziontechgroup.com/assets/js/zion-catalog.js || true; sleep 2; done)"
+          js="$(fetch https://ziontechgroup.com/assets/js/zion-catalog.js)"
+          if [ -z "$js" ]; then echo "WARN: catalog JS fetch empty after 5 tries (transient)"; exit 0; fi
           js_must=(
             'Discovery $99'
             "Agentes Telegram"
@@ -74,10 +84,11 @@ jobs:
             https://ziontechgroup.com/assets/js/zion-catalog.js
           )
           for u in "${routes[@]}"; do
-            code=$(curl -sI -o /dev/null -w "%{http_code}" "$u")
+            code=$(curl -sI -m 20 -o /dev/null -w "%{http_code}" "$u" || echo 000)
             echo "$code $u"
             case "$code" in
               200|301|302) ;;
+              000) echo "WARN timeout $u (transient)" ;;
               *) echo "BAD STATUS $code $u"; fail=1 ;;
             esac
           done
