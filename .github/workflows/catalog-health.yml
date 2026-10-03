@@ -30,12 +30,12 @@ jobs:
           html="$(fetch https://ziontechgroup.com/)"
           if [ -z "$html" ]; then echo "WARN: homepage fetch empty after 5 tries (transient)"; exit 0; fi
           must=(
-            # Current EN homepage (Next.js) — verified present 2026-09-27
+            # Current EN homepage (Next.js) — re-verified 2026-10-03; /app-network/ corrected to /zion-app-network/
             "Discovery"
             "FinOps"
             "/plans/"
             "/services/"
-            "/app-network/"
+            "/zion-app-network/"
             "/blog/"
             "/managed-it-services/"
             "/ai-consulting-services/"
@@ -46,7 +46,7 @@ jobs:
               echo "MISSING on homepage: $s"
               fail=1
             else
-              echo "OK: $s"
+                echo "OK: $s"
             fi
           done
           js="$(fetch https://ziontechgroup.com/assets/js/zion-catalog.js)"
@@ -63,7 +63,7 @@ jobs:
               echo "MISSING in catalog JS: $s"
               fail=1
             else
-              echo "OK JS: $s"
+                echo "OK JS: $s"
             fi
           done
           routes=(
@@ -80,7 +80,7 @@ jobs:
             https://ziontechgroup.com/telegram/
             https://ziontechgroup.com/pricing/
             https://ziontechgroup.com/finops-consulting/
-            https://ziontechgroup.com/app-network/
+            https://ziontechgroup.com/zion-app-network/
             https://ziontechgroup.com/assets/js/zion-catalog.js
           )
           for u in "${routes[@]}"; do
@@ -95,5 +95,5 @@ jobs:
           if [ "$fail" -ne 0 ]; then
             echo "Watchdog found gaps."
             exit 1
-          fi
-          echo "Watchdog green."
+            fi
+            echo "Watchdog green."
