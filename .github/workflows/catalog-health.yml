@@ -30,12 +30,13 @@ jobs:
           html="$(fetch https://ziontechgroup.com/)"
           if [ -z "$html" ]; then echo "WARN: homepage fetch empty after 5 tries (transient)"; exit 0; fi
           must=(
-            # Current EN homepage (Next.js) — re-verified 2026-10-03; /app-network/ corrected to /zion-app-network/
+            # Current EN homepage (Next.js) — re-verified 2026-10-03.
+            # /app-network/ removed (404); /zion-app-network/ is NOT linked on the
+            # homepage, so it is covered only by the route probe below (200 OK).
             "Discovery"
             "FinOps"
             "/plans/"
             "/services/"
-            "/zion-app-network/"
             "/blog/"
             "/managed-it-services/"
             "/ai-consulting-services/"
