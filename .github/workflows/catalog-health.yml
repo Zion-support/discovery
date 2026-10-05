@@ -53,7 +53,7 @@ jobs:
           js="$(fetch https://ziontechgroup.com/assets/js/zion-catalog.js)"
           if [ -z "$js" ]; then echo "WARN: catalog JS fetch empty after 5 tries (transient)"; exit 0; fi
           js_must=(
-            'Discovery $99'
+            "Free Discovery"
             "Agentes Telegram"
             "Estimador FinOps"
             "ensureFinops"
