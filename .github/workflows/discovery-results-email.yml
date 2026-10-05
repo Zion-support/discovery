@@ -1,0 +1,51 @@
+name: Discovery Results Email
+# Sends the personalized Discovery questionnaire results INSTANTLY to the
+# client AND to commercial@ziontechgroup.com. Triggered by the discovery
+# intake endpoint via repository_dispatch (event type: discovery-submission),
+# or manually via workflow_dispatch for retries.
+on:
+  repository_dispatch:
+    types: [discovery-submission]
+  workflow_dispatch:
+    inputs:
+      client_email:
+        description: Client email from the questionnaire
+        required: true
+      client_name:
+        description: Client name
+        required: false
+      report_html:
+        description: Rendered HTML report (app shortlist + ROI snapshot + pilot roadmap)
+        required: true
+
+jobs:
+  send-results:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send results to client + commercial team
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: ${{ secrets.SMTP_SERVER }}
+          server_port: ${{ secrets.SMTP_PORT }}
+          username: ${{ secrets.SMTP_USERNAME }}
+          password: ${{ secrets.SMTP_PASSWORD }}
+          subject: Your Free AI Discovery Results — Zion Tech Group
+          from: ${{ secrets.DISCOVERY_FROM_EMAIL }}
+          # DUAL DELIVERY: client first, commercial team always CC'd
+          to: ${{ github.event.client_payload.client_email || inputs.client_email }}
+          cc: commercial@ziontechgroup.com
+          html_body: ${{ github.event.client_payload.report_html || inputs.report_html }}
+          priority: high
+
+      - name: Notify on failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: 'discovery-delivery: email send failed',
+              body: 'Discovery results email failed to send. Check workflow run ' + context.runId,
+              labels: ['discovery-delivery']
+            });
