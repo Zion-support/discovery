@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free AI Discovery Questionnaire — Zion Tech Group</title>
+<meta name="description" content="Free, always-online AI Discovery questionnaire. Get a personalized app shortlist + ROI snapshot emailed instantly to you and our commercial team.">
+<link rel="canonical" href="https://ziontechgroup.com/discovery/questionnaire.html">
+<meta name="robots" content="index,follow">
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,sans-serif;background:linear-gradient(160deg,#020617 0%,#0f172a 45%,#1e1b4b 100%);color:#e2e8f0;line-height:1.65;min-height:100vh}
+a{color:#38bdf8}main{max-width:760px;margin:0 auto;padding:48px 20px 96px}
+h1{font-size:2rem;background:linear-gradient(90deg,#38bdf8,#a78bfa);-webkit-background-clip:text;background-clip:text;color:transparent}
+.badge{display:inline-block;background:#134e4a;color:#5eead4;padding:4px 12px;border-radius:999px;font-size:.8rem;font-weight:600;margin-bottom:16px}
+.card{background:rgba(15,23,42,.7);border:1px solid #334155;border-radius:16px;padding:24px;margin:20px 0}
+label{display:block;font-weight:600;margin:18px 0 6px}
+input,select,textarea{width:100%;padding:12px;border-radius:10px;border:1px solid #475569;background:#0f172a;color:#e2e8f0;font-size:1rem}
+button{margin-top:24px;width:100%;padding:16px;border:none;border-radius:12px;font-size:1.1rem;font-weight:700;cursor:pointer;background:linear-gradient(90deg,#0ea5e9,#8b5cf6);color:#fff}
+button:disabled{opacity:.6;cursor:wait}
+.benefits li{margin:6px 0}
+#result{display:none}
+.ok{color:#34d399}.err{color:#f87171}
+.small{font-size:.85rem;color:#94a3b8}
+</style>
+</head>
+<body>
+<main>
+<span class="badge">FREE · ALWAYS ONLINE · INSTANT RESULTS</span>
+<h1>AI Discovery Questionnaire</h1>
+<p>Answer 6 quick questions and instantly receive a <strong>personalized app shortlist + ROI snapshot</strong> mapped to the <a href="https://ziontechgroup.com/apps/network.html">Zion AI App Network</a> (410+ apps). Your results are emailed <strong>immediately to you</strong> and to our commercial team (<a href="mailto:commercial@ziontechgroup.com">commercial@ziontechgroup.com</a>) so we can follow up fast.</p>
+<div class="card">
+<strong>Why take the Discovery?</strong>
+<ul class="benefits">
+<li>🎯 Personalized shortlist from 410+ interlinked AI apps</li>
+<li>💰 ROI snapshot and pilot roadmap in minutes, not weeks</li>
+<li>⚡ Instant dual email delivery — you + our commercial team</li>
+<li>🆓 100% free, no credit card, always online</li>
+<li>🔗 Every recommendation links straight to a live app page</li>
+</ul>
+</div>
+<form id="dq" class="card">
+<label>Your name *</label><input name="name" required>
+<label>Work email *</label><input name="email" type="email" required>
+<label>Company</label><input name="company">
+<label>Industry *</label>
+<select name="industry" required><option value="">Choose…</option><option>Healthcare</option><option>Education</option><option>Real Estate & Property</option><option>Legal & Compliance</option><option>Retail & E-commerce</option><option>Manufacturing</option><option>Telecom & Connectivity</option><option>Financial Services & Insurance</option><option>Customer Support / CX</option><option>Other</option></select>
+<label>Biggest process bottleneck *</label>
+<select name="bottleneck" required><option value="">Choose…</option><option>Manual ticket/case routing</option><option>Meetings & follow-ups</option><option>Document processing</option><option>Lead follow-up & sales</option><option>Reporting & analytics</option><option>Compliance & risk</option><option>Other</option></select>
+<label>Team size</label>
+<select name="team_size"><option>1-10</option><option>11-50</option><option>51-200</option><option>201-1000</option><option>1000+</option></select>
+<label>What would success look like in 90 days?</label>
+<textarea name="goals" rows="3"></textarea>
+<button type="submit">Get my free Discovery results →</button>
+<p class="small">By submitting you agree to be contacted by Zion Tech Group. No spam, ever.</p>
+</form>
+<div id="result" class="card"></div>
+<p class="small">Network hub: <a href="https://zion-support.github.io/zion-network/">zion-support.github.io/zion-network</a> · Apps showcase: <a href="https://ziontechgroup.com/apps/network.html">ziontechgroup.com/apps/network.html</a></p>
+</main>
+<script>
+const APPS={
+"Healthcare":[["patient-intake-copilot","Patient Intake Copilot"],["claim-denial-appealer","Claim Denial Appealer"],["clinic-inventory-tracker","Clinic Inventory Tracker"]],
+"Education":[["lesson-plan-copilot","Lesson Plan Copilot"],["grading-assistant-ai","Grading Assistant AI"],["attendance-risk-radar","Attendance Risk Radar"]],
+"Real Estate & Property":[["property-valuation-avm","Property Valuation AVM"],["tenant-screening-ai","Tenant Screening AI"],["lease-abstractor-ai","Lease Abstractor AI"]],
+"Legal & Compliance":[["legal-research-copilot","Legal Research Copilot"],["contract-risk-scorer","Contract Risk Scorer"],["gdpr-dsar-automator","GDPR DSAR Automator"]],
+"Retail & E-commerce":[["concessions-demand-forecaster","Demand Forecaster"],["content-recommendation-engine","Recommendation Engine"],["ai-ticket-router","AI Ticket Router"]],
+"Manufacturing":[["oee-analytics-copilot","OEE Analytics Copilot"],["downtime-root-cause-ai","Downtime Root-Cause AI"],["spare-parts-forecaster","Spare Parts Forecaster"]],
+"Telecom & Connectivity":[["utility-outage-predictor","Outage Predictor"],["energy-load-shifter","Energy Load Shifter"],["voicemail-triage-ai","Voicemail Triage AI"]],
+"Financial Services & Insurance":[["fraud-transaction-monitor","Fraud Transaction Monitor"],["claims-automation-ai","Claims Automation AI"],["cash-flow-forecaster","Cash Flow Forecaster"]],
+"Customer Support / CX":[["ai-ticket-router","AI Ticket Router"],["support-chat-copilot","Support Chat Copilot"],["helpcenter-knowledge-ai","Help Center Knowledge AI"]],
+"Other":[["meeting-intelligence-ai","Meeting Intelligence AI"],["ai-ticket-router","AI Ticket Router"],["support-chat-copilot","Support Chat Copilot"]]};
+document.getElementById('dq').addEventListener('submit',async e=>{
+e.preventDefault();const f=e.target,b=f.querySelector('button');b.disabled=true;b.textContent='Sending…';
+const d=Object.fromEntries(new FormData(f).entries());
+const picks=APPS[d.industry]||APPS.Other;
+const rec=picks.map(p=>`- ${p[1]}: https://ziontechgroup.com/${p[0]}/`).join('\n');
+d._subject=`AI Discovery: ${d.name} (${d.company||'n/a'}) — ${d.industry}`;
+d._cc=d.email;
+d._autoresponse=`Hi ${d.name}, thanks for completing the free Zion AI Discovery! Your personalized shortlist:\n${rec}\n\nOur commercial team (commercial@ziontechgroup.com) received a copy and will follow up shortly. Explore the full network: https://ziontechgroup.com/apps/network.html`;
+d.recommended_apps=rec;
+d.roi_snapshot=`Industry: ${d.industry}; Bottleneck: ${d.bottleneck}; Team: ${d.team_size}. Typical pilot ROI: 3-6x in 90 days.`;
+const r=document.getElementById('result');
+try{
+const resp=await fetch('https://formsubmit.co/ajax/commercial@ziontechgroup.com',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(d)});
+if(!resp.ok)throw 0;
+r.style.display='block';r.innerHTML='<h2 class="ok">✅ Results sent!</h2><p>Check your inbox (<strong>'+d.email+'</strong>) — your personalized shortlist was also delivered to our commercial team. Here is your shortlist:</p><ul>'+picks.map(p=>`<li><a href="https://ziontechgroup.com/${p[0]}/">${p[1]}</a></li>`).join('')+'</ul><p><a href="https://ziontechgroup.com/apps/network.html">Explore all 410+ apps →</a></p>';
+f.reset();
+}catch(err){
+r.style.display='block';r.innerHTML='<p class="err">Something went wrong sending automatically. Email us directly at <a href="mailto:commercial@ziontechgroup.com">commercial@ziontechgroup.com</a> and mention "AI Discovery".</p>';
+}
+b.disabled=false;b.textContent='Get my free Discovery results →';
+r.scrollIntoView({behavior:'smooth'});
+});
+</script>
+</body>
+</html>
