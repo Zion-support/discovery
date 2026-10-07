@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Free AI Discovery Questionnaire — Zion Tech Group</title>
-<meta name="description" content="Free, always-online AI Discovery questionnaire. Get a personalized app shortlist + ROI snapshot emailed instantly to you and our commercial team.">
+<meta name="description" content="Free, always-online AI Discovery questionnaire. Get a personalized app shortlist and ROI-input snapshot instantly on screen; your submission is routed to our commercial team.">
 <link rel="canonical" href="https://ziontechgroup.com/discovery/questionnaire.html">
 <meta name="robots" content="index,follow">
 <style>
@@ -25,17 +25,17 @@ button:disabled{opacity:.6;cursor:wait}
 </head>
 <body>
 <main>
-<span class="badge">FREE · ALWAYS ONLINE · INSTANT RESULTS</span>
+<span class="badge">FREE · ALWAYS ONLINE · INSTANT ON-SCREEN RESULTS</span>
 <h1>AI Discovery Questionnaire</h1>
-<p>Answer 6 quick questions and instantly receive a <strong>personalized app shortlist + ROI snapshot</strong> mapped to the <a href="https://ziontechgroup.com/apps/network.html">Zion AI App Network</a> (410+ apps). Your results are emailed <strong>immediately to you</strong> and to our commercial team (<a href="mailto:commercial@ziontechgroup.com">commercial@ziontechgroup.com</a>) so we can follow up fast.</p>
+<p>Answer 6 quick questions and instantly receive a <strong>personalized app shortlist + ROI-input snapshot</strong> mapped to the <a href="https://ziontechgroup.com/apps/network.html">Zion AI App Network</a>. Your results appear immediately on this page. Your submission is also sent to our commercial team (<a href="mailto:commercial@ziontechgroup.com">commercial@ziontechgroup.com</a>); client inbox delivery is not claimed until verified.</p>
 <div class="card">
 <strong>Why take the Discovery?</strong>
 <ul class="benefits">
-<li>🎯 Personalized shortlist from 410+ interlinked AI apps</li>
-<li>💰 ROI snapshot and pilot roadmap in minutes, not weeks</li>
-<li>⚡ Instant dual email delivery — you + our commercial team</li>
+<li>🎯 Personalized shortlist from the Zion AI App Network</li>
+<li>💰 ROI-input snapshot and pilot next-step guidance in minutes</li>
+<li>⚡ Instant on-screen results + submission routed to our commercial team</li>
 <li>🆓 100% free, no credit card, always online</li>
-<li>🔗 Every recommendation links straight to a live app page</li>
+<li>🔗 Recommendations link straight to relevant app pages</li>
 </ul>
 </div>
 <form id="dq" class="card">
@@ -74,15 +74,13 @@ const d=Object.fromEntries(new FormData(f).entries());
 const picks=APPS[d.industry]||APPS.Other;
 const rec=picks.map(p=>`- ${p[1]}: https://ziontechgroup.com/${p[0]}/`).join('\n');
 d._subject=`AI Discovery: ${d.name} (${d.company||'n/a'}) — ${d.industry}`;
-d._cc=d.email;
-d._autoresponse=`Hi ${d.name}, thanks for completing the free Zion AI Discovery! Your personalized shortlist:\n${rec}\n\nOur commercial team (commercial@ziontechgroup.com) received a copy and will follow up shortly. Explore the full network: https://ziontechgroup.com/apps/network.html`;
 d.recommended_apps=rec;
-d.roi_snapshot=`Industry: ${d.industry}; Bottleneck: ${d.bottleneck}; Team: ${d.team_size}. Typical pilot ROI: 3-6x in 90 days.`;
+d.roi_inputs=`Industry: ${d.industry}; Bottleneck: ${d.bottleneck}; Team: ${d.team_size}; 90-day success goal: ${d.goals||'not provided'}. No ROI percentage is assumed without a customer baseline.`;
 const r=document.getElementById('result');
 try{
 const resp=await fetch('https://formsubmit.co/ajax/commercial@ziontechgroup.com',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(d)});
 if(!resp.ok)throw 0;
-r.style.display='block';r.innerHTML='<h2 class="ok">✅ Results sent!</h2><p>Check your inbox (<strong>'+d.email+'</strong>) — your personalized shortlist was also delivered to our commercial team. Here is your shortlist:</p><ul>'+picks.map(p=>`<li><a href="https://ziontechgroup.com/${p[0]}/">${p[1]}</a></li>`).join('')+'</ul><p><a href="https://ziontechgroup.com/apps/network.html">Explore all 410+ apps →</a></p>';
+r.style.display='block';r.innerHTML='<h2 class="ok">✅ Discovery results generated</h2><p>Your shortlist is shown below. Your submission was sent to our commercial team. Client inbox delivery is not claimed until verified.</p><ul>'+picks.map(p=>`<li><a href="https://ziontechgroup.com/${p[0]}/">${p[1]}</a></li>`).join('')+'</ul><p><a href="https://ziontechgroup.com/apps/network.html">Explore the AI App Network →</a></p>';
 f.reset();
 }catch(err){
 r.style.display='block';r.innerHTML='<p class="err">Something went wrong sending automatically. Email us directly at <a href="mailto:commercial@ziontechgroup.com">commercial@ziontechgroup.com</a> and mention "AI Discovery".</p>';
