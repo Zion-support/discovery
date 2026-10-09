@@ -18,7 +18,21 @@ jobs:
       - name: Install Composio CLI (non-interactive CI mode)
         run: |
           set -euo pipefail
-          curl -fsSL https://composio.dev/install | COMPOSIO_INSTALL_SHELL=none COMPOSIO_INSTALL_PLUGINS=0 sh
+          # A transient GitHub Releases HTTP 500 blocked the last scheduled install.
+          # Retry the vendor-verified installer, but never mask a persistent failure.
+          installed=0
+          for attempt in 1 2 3; do
+            if curl -fsSL https://composio.dev/install | COMPOSIO_INSTALL_SHELL=none COMPOSIO_INSTALL_PLUGINS=0 sh; then
+              installed=1
+              break
+            fi
+            echo "::warning::Composio CLI install attempt $attempt failed"
+            if [ "$attempt" -lt 3 ]; then sleep "$((attempt * 10))"; fi
+          done
+          if [ "$installed" -ne 1 ]; then
+            echo "::error::Composio CLI installer failed after three attempts"
+            exit 1
+          fi
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
           "$HOME/.local/bin/composio" --version
 
