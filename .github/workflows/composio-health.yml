@@ -12,19 +12,24 @@ jobs:
   health-check:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    env:
-      COMPOSIO_API_KEY: ${{ secrets.COMPOSIO_API_KEY }}
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Composio CLI
+      - name: Install Composio CLI (non-interactive CI mode)
         run: |
-          curl -fsSL https://composio.dev/install | bash
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          set -euo pipefail
+          curl -fsSL https://composio.dev/install | COMPOSIO_INSTALL_SHELL=none COMPOSIO_INSTALL_PLUGINS=0 sh
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          "$HOME/.local/bin/composio" --version
 
-      - run: composio whoami 2>&1 || echo "WHOAMI_FAILED"
+      - name: Check Composio identity
+        env:
+          COMPOSIO_API_KEY: ${{ secrets.COMPOSIO_API_KEY }}
+        run: composio whoami 2>&1 || echo "WHOAMI_FAILED"
 
       - name: List Connections
+        env:
+          COMPOSIO_API_KEY: ${{ secrets.COMPOSIO_API_KEY }}
         run: |
           echo "=== Connections ==="
           composio connections list 2>&1
