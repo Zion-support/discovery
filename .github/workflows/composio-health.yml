@@ -22,7 +22,7 @@ jobs:
           # Retry the vendor-verified installer, but never mask a persistent failure.
           installed=0
           for attempt in 1 2 3; do
-            if curl -fsSL https://composio.dev/install | COMPOSIO_INSTALL_SHELL=none COMPOSIO_INSTALL_PLUGINS=0 sh; then
+            if curl -fsSL https://composio.dev/install | COMPOSIO_INSTALL_VERSION=0.4.2 COMPOSIO_INSTALL_SHELL=none COMPOSIO_INSTALL_PLUGINS=0 sh; then
               installed=1
               break
             fi
