@@ -39,7 +39,7 @@ jobs:
       - name: Check Composio identity
         env:
           COMPOSIO_API_KEY: ${{ secrets.COMPOSIO_API_KEY }}
-        run: composio whoami 2>&1 || echo "WHOAMI_FAILED"
+        run: composio whoami 2>&1
 
       - name: List Connections
         env:
