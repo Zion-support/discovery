@@ -1,30 +1,32 @@
-# 📨 Discovery Results — Instant Dual Email Delivery
+# Discovery results — current email request contract
 
-**Rule:** the moment a visitor submits the free AI Discovery questionnaire (https://ziontechgroup.com/discovery/), the personalized results are emailed to **both**:
+The canonical questionnaire is https://ziontechgroup.com/discovery/.
 
-1. **The client** — at the email they entered in the questionnaire
-2. **Zion commercial team** — `commercial@ziontechgroup.com`
+## Live implementation
 
-No delay, no batching. Discovery is always online and always free.
+The public page:
 
-## How it works
+1. validates the answers and participant email in the browser;
+2. creates the on-screen recommendations and text summary immediately;
+3. sends the same summary to FormSubmit, addressed to `commercial@ziontechgroup.com` with the participant in `_cc`;
+4. reports explicit provider acceptance, refusal or an uncertain result;
+5. blocks automatic duplicate submission for the same summary during the page session; and
+6. offers a manual email fallback when delivery cannot be confirmed.
 
-1. Questionnaire front-end (`/discovery/`) collects answers + email and POSTs the payload to the discovery intake endpoint.
-2. The intake validates and scores the answers, builds the personalized report (app shortlist + ROI snapshot + pilot roadmap mapped to the Zion AI App Network).
-3. The report is rendered to HTML email and sent simultaneously to client + `commercial@ziontechgroup.com` via the mail provider (SMTP secrets below).
-4. A fallback path fires `repository_dispatch` → `.github/workflows/discovery-results-email.yml` which re-sends the report if the primary sender fails (guaranteed delivery).
-5. Every submission is appended to `leads/` (deduplicated — see `append_leads.py`) so commercial has a durable CRM trail.
+The current public flow does **not** use a Zion SMTP backend, repository dispatch retry, durable `leads/` append or guaranteed-delivery workflow. Do not publish those claims unless a deployed implementation and recipient-level evidence exist.
 
-## Secrets required (repo Settings → Secrets)
-- `SMTP_SERVER`, `SMTP_PORT`, `SMTP_USERNAME`, `SMTP_PASSWORD`
-- `DISCOVERY_FROM_EMAIL` (e.g. discovery@ziontechgroup.com)
-- `COMMERCIAL_EMAIL` = commercial@ziontechgroup.com
+## Verification contract
 
-## SLA
-- Delivery target: < 60 seconds from submit.
-- If either recipient fails, the workflow retries 3× and opens an issue in this repo tagged `discovery-delivery`.
+Use only controlled Zion data for tests. Record a non-client test identifier and keep these states distinct for each recipient:
 
-## Links
-- Questionnaire: https://ziontechgroup.com/discovery/
-- Benefits: https://ziontechgroup.com/app-network-discovery-benefits.html
-- Network hub: https://github.com/Zion-support/zion-network
+- **On-screen result generated**
+- **Request accepted by FormSubmit**
+- **Message delivered to participant mailbox**
+- **Message delivered to Commercial mailbox**
+- **Bounce or refusal**
+
+A FormSubmit success response is not inbox-delivery proof. A message received by one mailbox with both addresses in its headers is not independent evidence for the other mailbox. Re-send only the missing recipient after reconciling the test identifier and current delivery state.
+
+## Privacy and operations
+
+Do not put customer data, credentials, SMTP settings or confidential results in repository files, issues, workflow logs or public artifacts. The questionnaire is free; paid work, prices, checkout and implementation remain separate.
